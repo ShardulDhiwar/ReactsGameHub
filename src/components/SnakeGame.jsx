@@ -117,59 +117,57 @@ const SnakeGame = () => {
       padding: 16,
     }}>
       <div style={{ maxWidth: 520, margin: "0 auto", paddingBottom: 32 }}>
-
         {/* Header with Back Button */}
         <header
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "16px 0",
-    marginBottom: 12,
-    width: "100%",
-  }}
->
-  {/* Empty div to balance spacing on the left */}
-  <div style={{ width: 68 }} />
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "16px 0",
+            marginBottom: 12,
+            width: "100%",
+          }}
+        >
+          {/* Empty div to balance spacing on the left */}
+          <div style={{ width: 68 }} />
 
-  {/* Title centered */}
-  <h2 style={{ margin: 0, fontSize: 24, fontWeight: "bold", userSelect: "none" }}>
-    🐍 Snake Game
-  </h2>
+          {/* Title centered */}
+          <h2 style={{ margin: 0, fontSize: 24, fontWeight: "bold", userSelect: "none" }}>
+            🐍 Snake Game
+          </h2>
 
-  {/* Back Button on the right */}
-  <button
-    onClick={() => window.history.back()}
-    style={{
-      display: "flex",
-      alignItems: "center",
-      background: "#293829",
-      borderRadius: 12,
-      height: 40,
-      border: "none",
-      padding: "0 12px",
-      cursor: "pointer",
-      color: "#fff",
-      fontWeight: "bold",
-      marginLeft: 16,
-    }}
-    title="Back"
-    type="button"
-  >
-    Back
-    <svg
-      style={{ marginLeft: 6 }}
-      width="20px"
-      height="20px"
-      fill="currentColor"
-      viewBox="0 0 256 256"
-      aria-hidden="true"
-    >
-      <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z" />
-    </svg>
-  </button>
-</header>
-
+          {/* Back Button on the right */}
+          <button
+            onClick={() => window.history.back()}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              background: "#293829",
+              borderRadius: 12,
+              height: 40,
+              border: "none",
+              padding: "0 12px",
+              cursor: "pointer",
+              color: "#fff",
+              fontWeight: "bold",
+              marginLeft: 16,
+            }}
+            title="Back"
+            type="button"
+          >
+            Back
+            <svg
+              style={{ marginLeft: 6 }}
+              width="20px"
+              height="20px"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+              aria-hidden="true"
+            >
+              <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z" />
+            </svg>
+          </button>
+        </header>
 
         {/* Player name and score */}
         <div style={{
@@ -199,30 +197,28 @@ const SnakeGame = () => {
           </span>
         </div>
 
-        {/* Difficulty selector before start */}
-        {!playing && !gameOver && (
-          <div style={{ textAlign: "center", marginBottom: 12 }}>
-            <label htmlFor="difficulty" style={{ marginRight: 8, fontWeight: 700 }}>Difficulty:</label>
-            <select
-              id="difficulty"
-              value={difficulty}
-              onChange={e => setDifficulty(e.target.value)}
-              style={{
-                padding: 6,
-                borderRadius: 8,
-                background: "#1c261c",
-                color: "#fff",
-                border: "1px solid #3c533c",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </div>
-        )}
+        {/* Difficulty selector ALWAYS visible */}
+        <div style={{ textAlign: "center", marginBottom: 12 }}>
+          <label htmlFor="difficulty" style={{ marginRight: 8, fontWeight: 700 }}>Difficulty:</label>
+          <select
+            id="difficulty"
+            value={difficulty}
+            onChange={e => setDifficulty(e.target.value)}
+            style={{
+              padding: 6,
+              borderRadius: 8,
+              background: "#1c261c",
+              color: "#fff",
+              border: "1px solid #3c533c",
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
 
         {/* Game board */}
         <div
@@ -418,7 +414,6 @@ const SnakeGame = () => {
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );
