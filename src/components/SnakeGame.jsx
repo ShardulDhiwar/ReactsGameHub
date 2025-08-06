@@ -21,6 +21,7 @@ const getRandomFood = (snake) => {
   }
 };
 
+// Custom hook for interval
 const useInterval = (callback, delay) => {
   const cbRef = useRef();
   useEffect(() => { cbRef.current = callback }, [callback]);
@@ -46,7 +47,7 @@ const SnakeGame = () => {
     () => {
       if (!playing || gameOver) return;
       const next = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-      // Collision
+      // Check collisions with walls or self
       if (
         next.x < 0 || next.x >= BOARD_SIZE ||
         next.y < 0 || next.y >= BOARD_SIZE ||
@@ -57,10 +58,11 @@ const SnakeGame = () => {
         return;
       }
       const newSnake = [next, ...snake];
+      // Eating food case
       if (next.x === food.x && next.y === food.y) {
         setFood(getRandomFood(newSnake));
         setScore(score + 1);
-        setSnake(newSnake); // grow
+        setSnake(newSnake);
       } else {
         newSnake.pop();
         setSnake(newSnake);
@@ -69,7 +71,7 @@ const SnakeGame = () => {
     playing && !gameOver ? SPEEDS[difficulty] : null
   );
 
-  // Keyboard events
+  // Keyboard controls
   const handleKeyDown = useCallback((e) => {
     if (!playing) return;
     setDir(prev => {
@@ -85,7 +87,7 @@ const SnakeGame = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // D-Pad
+  // D-Pad manual moves
   const manualMove = (arrow) => {
     setDir(prev => {
       if (arrow === "left" && prev.x !== 1) return { x: -1, y: 0 };
@@ -96,7 +98,7 @@ const SnakeGame = () => {
     });
   };
 
-  // Reset
+  // Reset game
   const reset = () => {
     setSnake([...INITIAL_SNAKE]);
     setDir({ ...INITIAL_DIR });
@@ -106,19 +108,76 @@ const SnakeGame = () => {
     setPlaying(true);
   };
 
-  // --- UI ---
   return (
     <div style={{
       fontFamily: 'Space Grotesk, Noto Sans, sans-serif',
       minHeight: "100vh",
       background: "#111811",
       color: "#fff",
+      padding: 16,
     }}>
       <div style={{ maxWidth: 520, margin: "0 auto", paddingBottom: 32 }}>
-        <h2 style={{ textAlign: "center", fontSize: 32, padding: 24, marginBottom: 0 }}>
-          🐍 Snake Game
-        </h2>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "16px 0 12px 0" }}>
+
+        {/* Header with Back Button */}
+        <header
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "16px 0",
+    marginBottom: 12,
+    width: "100%",
+  }}
+>
+  {/* Empty div to balance spacing on the left */}
+  <div style={{ width: 68 }} />
+
+  {/* Title centered */}
+  <h2 style={{ margin: 0, fontSize: 24, fontWeight: "bold", userSelect: "none" }}>
+    🐍 Snake Game
+  </h2>
+
+  {/* Back Button on the right */}
+  <button
+    onClick={() => window.history.back()}
+    style={{
+      display: "flex",
+      alignItems: "center",
+      background: "#293829",
+      borderRadius: 12,
+      height: 40,
+      border: "none",
+      padding: "0 12px",
+      cursor: "pointer",
+      color: "#fff",
+      fontWeight: "bold",
+      marginLeft: 16,
+    }}
+    title="Back"
+    type="button"
+  >
+    Back
+    <svg
+      style={{ marginLeft: 6 }}
+      width="20px"
+      height="20px"
+      fill="currentColor"
+      viewBox="0 0 256 256"
+      aria-hidden="true"
+    >
+      <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z" />
+    </svg>
+  </button>
+</header>
+
+
+        {/* Player name and score */}
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "16px 0 12px 0",
+        }}>
           <input
             style={{
               background: "#1c261c",
@@ -127,23 +186,25 @@ const SnakeGame = () => {
               borderRadius: 12,
               height: 44,
               padding: "0 16px",
-              width: 150
+              width: 150,
+              userSelect: "none",
             }}
             value="Player 1"
             readOnly
             disabled
             ref={inputRef}
           />
-          <span style={{ color: "#aeeeee", fontWeight: 700, fontSize: 20 }}>
+          <span style={{ color: "#aeeeee", fontWeight: 700, fontSize: 20, userSelect: "none" }}>
             Score: <span style={{ color: "#0ff" }}>{score}</span>
           </span>
         </div>
 
-        {/* Difficulty before start */}
+        {/* Difficulty selector before start */}
         {!playing && !gameOver && (
           <div style={{ textAlign: "center", marginBottom: 12 }}>
-            <span>Difficulty: </span>
+            <label htmlFor="difficulty" style={{ marginRight: 8, fontWeight: 700 }}>Difficulty:</label>
             <select
+              id="difficulty"
               value={difficulty}
               onChange={e => setDifficulty(e.target.value)}
               style={{
@@ -153,6 +214,7 @@ const SnakeGame = () => {
                 color: "#fff",
                 border: "1px solid #3c533c",
                 fontWeight: 700,
+                cursor: "pointer",
               }}
             >
               <option value="easy">Easy</option>
@@ -162,7 +224,7 @@ const SnakeGame = () => {
           </div>
         )}
 
-        {/* Board */}
+        {/* Game board */}
         <div
           style={{
             width: 320,
@@ -173,15 +235,15 @@ const SnakeGame = () => {
             border: "2px dashed #3c533c",
             borderRadius: 16,
             background: "#111811",
-            outline: "2px solid #3c533c"
+            outline: "2px solid #3c533c",
+            userSelect: "none",
           }}
         >
-          {/* Board grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateRows: `repeat(${BOARD_SIZE},1fr)`,
-              gridTemplateColumns: `repeat(${BOARD_SIZE},1fr)`,
+              gridTemplateRows: `repeat(${BOARD_SIZE}, 1fr)`,
+              gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
               width: "100%",
               height: "100%",
             }}
@@ -213,7 +275,7 @@ const SnakeGame = () => {
           </div>
         </div>
 
-        {/* Game state overlays */}
+        {/* Start button */}
         {!playing && !gameOver && (
           <button
             style={{
@@ -225,6 +287,8 @@ const SnakeGame = () => {
               fontSize: 18,
               height: 48,
               marginBottom: 10,
+              cursor: "pointer",
+              userSelect: "none",
             }}
             type="button"
             onClick={reset}
@@ -232,8 +296,10 @@ const SnakeGame = () => {
             Start Game
           </button>
         )}
+
+        {/* Game Over overlay */}
         {gameOver && (
-          <div style={{ textAlign: "center", marginBottom: 14 }}>
+          <div style={{ textAlign: "center", marginBottom: 14, userSelect: "none" }}>
             <div style={{ fontSize: 22, color: "#fb5757", fontWeight: 700 }}>Game Over!</div>
             <button
               style={{
@@ -245,6 +311,7 @@ const SnakeGame = () => {
                 marginTop: 5,
                 height: 48,
                 width: 140,
+                cursor: "pointer",
               }}
               type="button"
               onClick={reset}
@@ -254,47 +321,104 @@ const SnakeGame = () => {
           </div>
         )}
 
-        {/* D-Pad Controls */}
+        {/* D-Pad controls with spacing */}
         <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
-          <div style={{ width: 112, height: 112, position: "relative" }}>
+          <div style={{ width: 140, height: 140, position: "relative" }}>
             {/* Up */}
             <button
               onClick={() => manualMove("up")}
               style={{
-                position: "absolute", left: "50%", top: 0, transform: "translate(-50%,0)",
-                width: 38, height: 38, fontSize: 24, background: "#293829", color: "#fff", borderRadius: 12
+                position: "absolute",
+                left: "50%",
+                top: 0,
+                transform: "translate(-50%, 0)",
+                width: 48,
+                height: 48,
+                fontSize: 28,
+                background: "#293829",
+                color: "#fff",
+                borderRadius: 12,
+                cursor: "pointer",
+                userSelect: "none",
               }}
               tabIndex={-1}
-            >↑</button>
+              aria-label="Move up"
+              type="button"
+            >
+              ↑
+            </button>
             {/* Left */}
             <button
               onClick={() => manualMove("left")}
               style={{
-                position: "absolute", left: 0, top: "50%", transform: "translate(0,-50%)",
-                width: 38, height: 38, fontSize: 24, background: "#293829", color: "#fff", borderRadius: 12
+                position: "absolute",
+                left: 0,
+                top: "50%",
+                transform: "translate(0, -50%)",
+                width: 48,
+                height: 48,
+                fontSize: 28,
+                background: "#293829",
+                color: "#fff",
+                borderRadius: 12,
+                cursor: "pointer",
+                userSelect: "none",
               }}
               tabIndex={-1}
-            >←</button>
+              aria-label="Move left"
+              type="button"
+            >
+              ←
+            </button>
             {/* Right */}
             <button
               onClick={() => manualMove("right")}
               style={{
-                position: "absolute", right: 0, top: "50%", transform: "translate(0,-50%)",
-                width: 38, height: 38, fontSize: 24, background: "#293829", color: "#fff", borderRadius: 12
+                position: "absolute",
+                right: 0,
+                top: "50%",
+                transform: "translate(0, -50%)",
+                width: 48,
+                height: 48,
+                fontSize: 28,
+                background: "#293829",
+                color: "#fff",
+                borderRadius: 12,
+                cursor: "pointer",
+                userSelect: "none",
               }}
               tabIndex={-1}
-            >→</button>
+              aria-label="Move right"
+              type="button"
+            >
+              →
+            </button>
             {/* Down */}
             <button
               onClick={() => manualMove("down")}
               style={{
-                position: "absolute", left: "50%", bottom: 0, transform: "translate(-50%,0)",
-                width: 38, height: 38, fontSize: 24, background: "#293829", color: "#fff", borderRadius: 12
+                position: "absolute",
+                left: "50%",
+                bottom: 0,
+                transform: "translate(-50%, 0)",
+                width: 48,
+                height: 48,
+                fontSize: 28,
+                background: "#293829",
+                color: "#fff",
+                borderRadius: 12,
+                cursor: "pointer",
+                userSelect: "none",
               }}
               tabIndex={-1}
-            >↓</button>
+              aria-label="Move down"
+              type="button"
+            >
+              ↓
+            </button>
           </div>
         </div>
+
       </div>
     </div>
   );

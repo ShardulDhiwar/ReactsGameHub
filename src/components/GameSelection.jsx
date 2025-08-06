@@ -1,28 +1,25 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const games = [
   {
     id: "snake",
     title: "🐍 Snake Game",
-    // description: "Play the classic Snake game",
     route: "/snake",
     image: "/assets/snake.png?height=200&width=200",
   },
   {
     id: "tic-tac-toe",
     title: "❌⭕ Tic Tac Toe",
-    // description: "Play the classic Tic Tac Toe game",
     route: "/tic-tac-toe",
     image: "/assets/Tic-tac-toe.jpg?height=200&width=200",
   },
   {
     id: "memory",
     title: "🧠 Memory Match",
-    // description: "Play the classic Memory Match game",
     route: "/memory",
     image: "/assets/memory.png?height=200&width=200",
   },
-]
+];
 
 const GameSelection = () => {
   return (
@@ -34,42 +31,41 @@ const GameSelection = () => {
       </div>
 
       {/* Game Cards */}
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-full sm:max-w-xl md:max-w-4xl mx-auto space-y-6 px-2 sm:px-4">
         {games.map((game) => (
           <div
             key={game.id}
-            className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 group hover:bg-gray-750 border border-gray-700 hover:border-cyan-500/50"
+            className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 group hover:bg-gray-750 border border-gray-700 hover:border-cyan-500/50 
+                       flex flex-col sm:flex-row items-center gap-6"
           >
-            <div className="flex items-center gap-6">
-              {/* Game Preview Image */}
-              <div className="flex-shrink-0">
-                <div className="w-32 h-32 rounded-lg overflow-hidden bg-gray-700 shadow-lg">
-                  <img
-                    src={game.image}
-                    alt={game.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            {/* Game Preview Image */}
+            <div className="flex-shrink-0">
+              <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-lg overflow-hidden bg-gray-700 shadow-lg">
+                <img
+                  src={game.image}
+                  alt={game.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
+            </div>
 
-              {/* Game Info */}
-              <div className="flex-grow">
-                <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-cyan-400 transition-colors">
-                  {game.title}
-                </h3>
-                {/* <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
-                  {game.description}
-                </p> */}
-              </div>
+            {/* Game Info */}
+            <div className="flex-grow text-center sm:text-left">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white group-hover:text-cyan-400 transition-colors break-words">
+                {game.title}
+              </h3>
+            </div>
 
-              {/* Play Button */}
-              <div className="flex-shrink-0">
-                <Link to={game.route}>
-                  <button className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg shadow-md transition-all duration-300 hover:shadow-cyan-500/50 hover:shadow-lg hover:scale-105 border border-blue-500 hover:border-cyan-400 hover:text-cyan-100">
-                    Play
-                  </button>
-                </Link>
-              </div>
+            {/* Play Button */}
+            <div className="flex-shrink-0">
+              <Link to={game.route}>
+                <button
+                  className="px-4 py-2 sm:px-6 sm:py-2 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg shadow-md transition-all duration-300 
+                             hover:shadow-cyan-500/50 hover:shadow-lg hover:scale-105 border border-blue-500 hover:border-cyan-400 hover:text-cyan-100 whitespace-nowrap"
+                >
+                  Play
+                </button>
+              </Link>
             </div>
           </div>
         ))}
@@ -90,7 +86,7 @@ const GameSelection = () => {
         `}
       </style>
     </div>
-  )
-}
+  );
+};
 
-export default GameSelection
+export default GameSelection;
