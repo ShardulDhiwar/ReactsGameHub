@@ -273,9 +273,10 @@ const SnakeGame = () => {
 
         {/* Start button */}
         {!playing && !gameOver && (
+          <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
           <button
             style={{
-              width: "100%",
+              width: "50%",
               borderRadius: 12,
               background: "#293829",
               color: "#fff",
@@ -291,6 +292,7 @@ const SnakeGame = () => {
           >
             Start Game
           </button>
+          </div>
         )}
 
         {/* Game Over overlay */}
@@ -318,102 +320,104 @@ const SnakeGame = () => {
         )}
 
         {/* D-Pad controls with spacing */}
-        <div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
-          <div style={{ width: 140, height: 140, position: "relative" }}>
-            {/* Up */}
-            <button
-              onClick={() => manualMove("up")}
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: 0,
-                transform: "translate(-50%, 0)",
-                width: 48,
-                height: 48,
-                fontSize: 28,
-                background: "#293829",
-                color: "#fff",
-                borderRadius: 12,
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={-1}
-              aria-label="Move up"
-              type="button"
-            >
-              ↑
-            </button>
-            {/* Left */}
-            <button
-              onClick={() => manualMove("left")}
-              style={{
-                position: "absolute",
-                left: 0,
-                top: "50%",
-                transform: "translate(0, -50%)",
-                width: 48,
-                height: 48,
-                fontSize: 28,
-                background: "#293829",
-                color: "#fff",
-                borderRadius: 12,
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={-1}
-              aria-label="Move left"
-              type="button"
-            >
-              ←
-            </button>
-            {/* Right */}
-            <button
-              onClick={() => manualMove("right")}
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "50%",
-                transform: "translate(0, -50%)",
-                width: 48,
-                height: 48,
-                fontSize: 28,
-                background: "#293829",
-                color: "#fff",
-                borderRadius: 12,
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={-1}
-              aria-label="Move right"
-              type="button"
-            >
-              →
-            </button>
-            {/* Down */}
-            <button
-              onClick={() => manualMove("down")}
-              style={{
-                position: "absolute",
-                left: "50%",
-                bottom: 0,
-                transform: "translate(-50%, 0)",
-                width: 48,
-                height: 48,
-                fontSize: 28,
-                background: "#293829",
-                color: "#fff",
-                borderRadius: 12,
-                cursor: "pointer",
-                userSelect: "none",
-              }}
-              tabIndex={-1}
-              aria-label="Move down"
-              type="button"
-            >
-              ↓
-            </button>
-          </div>
-        </div>
+       {/* D-Pad controls with more spacing */}
+<div style={{ display: "flex", justifyContent: "center", margin: "28px 0" }}>
+  <div style={{ width: 196, height: 196, position: "relative" }}>
+    {/* Up */}
+    <button
+      onClick={() => manualMove("up")}
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: 0,
+        transform: "translate(-50%, 0)",
+        width: 65,
+        height: 65,
+        fontSize: 28,
+        background: "#293829",
+        color: "#fff",
+        borderRadius: 12,
+        cursor: "pointer",
+        userSelect: "none",
+      }}
+      tabIndex={-1}
+      aria-label="Move up"
+      type="button"
+    >
+      ↑
+    </button>
+    {/* Left */}
+    <button
+      onClick={() => manualMove("left")}
+      style={{
+        position: "absolute",
+        left: 0,
+        top: "50%",
+        transform: "translate(0, -50%)",
+        width: 65,
+        height: 65,
+        fontSize: 28,
+        background: "#293829",
+        color: "#fff",
+        borderRadius: 12,
+        cursor: "pointer",
+        userSelect: "none",
+      }}
+      tabIndex={-1}
+      aria-label="Move left"
+      type="button"
+    >
+      ←
+    </button>
+    {/* Right */}
+    <button
+      onClick={() => manualMove("right")}
+      style={{
+        position: "absolute",
+        right: 0,
+        top: "50%",
+        transform: "translate(0, -50%)",
+        width: 65,
+        height: 65,
+        fontSize: 28,
+        background: "#293829",
+        color: "#fff",
+        borderRadius: 12,
+        cursor: "pointer",
+        userSelect: "none",
+      }}
+      tabIndex={-1}
+      aria-label="Move right"
+      type="button"
+    >
+      →
+    </button>
+    {/* Down */}
+    <button
+      onClick={() => manualMove("down")}
+      style={{
+        position: "absolute",
+        left: "50%",
+        bottom: 0,
+        transform: "translate(-50%, 0)",
+        width: 65,
+        height: 65,
+        fontSize: 28,
+        background: "#293829",
+        color: "#fff",
+        borderRadius: 12,
+        cursor: "pointer",
+        userSelect: "none",
+      }}
+      tabIndex={-1}
+      aria-label="Move down"
+      type="button"
+    >
+      ↓
+    </button>
+  </div>
+</div>
+
       </div>
     </div>
   );
